@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Products</title>
+  <style>
+    body{font-family:Arial}
+  </style>
+</head>
+<body>
+<h1>Product List</h1>
+<input type="text" id="search" placeholder="Search" oninput="load()">
+<ul id="list"></ul>
+<script>
+async function load(){
+  const q = document.getElementById('search').value.toLowerCase();
+  const res = await fetch('/products');
+  const products = await res.json();
+  const ul = document.getElementById('list');
+  ul.innerHTML='';
+  products.filter(p=>p.name.toLowerCase().includes(q)).forEach(p=>{
+    const li=document.createElement('li');
+    li.textContent=p.name+' ('+p.code+')';
+    ul.appendChild(li);
+  });
+}
+load();
+</script>
+<p><a href="/login">Login</a> | <a href="/register">Register</a></p>
+</body>
+</html>
